@@ -5,6 +5,7 @@ async function start() {
     const browser = await puppeteer.launch()
     const page = await browser.newPage()
     await page.goto("https://en.wikipedia.org/wiki/List_of_current_United_States_senators")
+    // take screenshot
     // await page.screenshot({path: "congress.png", fullPage: true})
 
     const names = await page.evaluate(() => {
