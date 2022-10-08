@@ -1,20 +1,39 @@
-const puppeteer = require('puppeteer')
-const fs = require('fs/promises')
+// const puppeteer = require('puppeteer');
+// const fs = require('fs/promises');
+const express = require('express');
+const Joi = require('joi');
+const states = require('./states.txt');
 
-async function start() {
-    const browser = await puppeteer.launch()
-    const page = await browser.newPage()
-    await page.goto("https://en.wikipedia.org/wiki/List_of_current_United_States_senators")
-    // take screenshot
-    // await page.screenshot({path: "congress.png", fullPage: true})
+// async function startScrape() {
+//     const browser = await puppeteer.launch()
+//     const page = await browser.newPage()
+//     await page.goto("https://en.wikipedia.org/wiki/List_of_current_United_States_senators")
+//     // take screenshot
+//     // await page.screenshot({path: "congress.png", fullPage: true})
 
-    const names = await page.evaluate(() => {
-       return  Array.from(
-            document.querySelectorAll("#senators > tbody > tr > th > span > span > span > a")).map(x => x.textContent)
-    })
-    await fs.writeFile("senate-names.txt", names.join("\r\n"))
+//     const names = await page.evaluate(() => {
+//        return  Array.from(
+//             document.querySelectorAll("#senators > tbody > tr > th > span > span > span > a")).map(x => x.textContent)
+//     })
 
-    await browser.close()
-}
+//     const states = await page.evaluate(() => {
+//        return  Array.from(
+//             document.querySelectorAll("#senators > tbody > tr > td:nth-child(1) > a")).map(x => x.textContent)
+//     })
 
-start()
+//     await fs.writeFile("senator-names.txt", names.join("\r\n"))
+//     await fs.writeFile("states.txt", states.join("\r\n"))
+
+//     await browser.close()
+// }
+
+
+
+// startScrape()
+
+const app = express();
+
+app.use(express.json());
+
+const senetors = 
+
