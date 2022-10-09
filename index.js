@@ -9,11 +9,11 @@ const csv = require('csv-parser');
 var results = [];
 
 function readCSVFile() {
-    fs.createReadStream('./senate.csv')
+fs.createReadStream('./senate.csv')
     .pipe(csv())
     .on('data', (data) => results.push(data))
     .on('end', () => {
-
+        results.forEach(i = 0, )
     });
 };
 
