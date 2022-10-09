@@ -1,39 +1,58 @@
 // const puppeteer = require('puppeteer');
 // const fs = require('fs/promises');
+const fs = require('fs');
 const express = require('express');
 const Joi = require('joi');
-const states = require('./states.txt');
-
-// async function startScrape() {
-//     const browser = await puppeteer.launch()
-//     const page = await browser.newPage()
-//     await page.goto("https://en.wikipedia.org/wiki/List_of_current_United_States_senators")
-//     // take screenshot
-//     // await page.screenshot({path: "congress.png", fullPage: true})
-
-//     const names = await page.evaluate(() => {
-//        return  Array.from(
-//             document.querySelectorAll("#senators > tbody > tr > th > span > span > span > a")).map(x => x.textContent)
-//     })
-
-//     const states = await page.evaluate(() => {
-//        return  Array.from(
-//             document.querySelectorAll("#senators > tbody > tr > td:nth-child(1) > a")).map(x => x.textContent)
-//     })
-
-//     await fs.writeFile("senator-names.txt", names.join("\r\n"))
-//     await fs.writeFile("states.txt", states.join("\r\n"))
-
-//     await browser.close()
-// }
+const csv = require('csv-parser');
 
 
+var results = [];
 
-// startScrape()
+function readCSVFile() {
+    fs.createReadStream('./senate.csv')
+    .pipe(csv())
+    .on('data', (data) => results.push(data))
+    .on('end', () => {
+
+    });
+};
+
+readCSVFile();
+
+console.log(results);
 
 const app = express();
 
 app.use(express.json());
 
-const senetors = 
+app.get('/api/senators', (req, res) => {
+    res.send(results)
+    
+})
 
+// app.post('/api/senators', (req, res) => {
+//     // validate reqest, if error return status 400 message 
+//     const {error} = validateSenator(req.body);
+//     if (error) return res.status(400).send(error.details[0].message) 
+    
+//     res.send(`State: ${result.state_name} Name: ${result.first_name} ${result.last_name} Date of birth: ${result.date_of_birth}`);
+// });
+
+
+// validate senators function that is used in http methods such as get and put above
+// function validateSenator(results) {
+//     const schema = Joi.object({state_name: Joi.string().min(3).required()});
+
+//     return schema.validate(results);
+// };
+
+// // route perameters
+// app.get('/api/senators/:state', (req, res) => {
+//     const genre = genres.find(c => c.id === parseInt(req.params.id));
+//     if (!genre) return res.status(404).send('The genre with the given id was not found');
+//     res.send(genre);
+// });
+
+// port 
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`listening on port ${port}...`));
