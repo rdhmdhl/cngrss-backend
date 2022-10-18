@@ -1,0 +1,12 @@
+// use in terminal to create a new collection and documents
+mongoimport --db us-senate --collection senators --drop --file us-senate.json --jsonArray
+
+// start mongodb using brew
+brew services start mongodb-community@6.0
+brew services stop mongodb-community@6.0
+
+username for cluster
+rdhmmdhl
+
+password for cluster
+xrLGQfb3D-u2JL9
