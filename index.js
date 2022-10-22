@@ -1,12 +1,12 @@
-// const puppeteer = require('puppeteer');
-// const fs = require('fs/promises');
-//
-
+const mongoose = require('mongoose');
 const express = require('express');
-
 const senators = require('./routes/senators');
-
 const app = express();
+
+mongoose.connect('mongodb://localhost/us-senate')
+    .then(() => console.log('connected to mongodb database...'))
+    .catch(err => console.log('An error occured...', err));
+
 
 app.use(express.json());
 
