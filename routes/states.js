@@ -1,6 +1,6 @@
-const { State, validate } = require('../models/state');
+const { State } = require('../models/state');
 const {Senator} = require('../models/senator');
-const mongoose = require('mongoose');
+const { Representative } = require('../models/representative');
 const express = require('express');
 const router = express.Router();
 
@@ -9,26 +9,25 @@ router.get('/', async (req, res) => {
     res.send(states)
 });
 
-// router.get('/:id', async (req, res) => {
-//     const state = await State.findById(req.params.id);
-    
-//     if (!state) return res.status(404).send('the state with the given ID was not found');
-
-//     res.send(state);
-// });
-
 async function getSenators(state_name) {
     return await Senator
         .find({state_name})
         .select('name title state_name party, date_of_birth entered_office term_end')
-}
+};
+
+async function getRepresentatives(state_name) {
+    return await Representative
+        .find({state_name})
+        .select('name title state_name party, date_of_birth entered_office term_end')
+};
 
 router.get('/:state_name', async (req, res) => {
     const senators = await getSenators(req.params.state_name);
+    const representatives = await getRepresentatives(req.params.state_name);
 
-    if (!senators) return res.status(404).send('the senator with the given ID was not found');
+    if (!senators) return res.status(404).send('the state congress members were not found');
 
-    res.send(senators)
+    res.send({senators: senators, representatives: representatives})
 });
 
 

@@ -1,5 +1,4 @@
-const { Senator, validate } = require('../models/senator');
-const mongoose = require('mongoose');
+const { Senator } = require('../models/senator');
 const express = require('express');
 const router = express.Router();
 
@@ -24,7 +23,7 @@ async function getSenator(name_slug) {
         .find({name_slug})
         .sort('name')
         .select('name state_name title party, date_of_birth entered_office term_end')
-}
+};
 
 router.get('/:name_slug', async (req, res) => {
     const senators = await getSenator(req.params.name_slug);

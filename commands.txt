@@ -1,6 +1,7 @@
 // use in terminal to create a new collection and documents
 mongoimport --db us-senate --collection senators --drop --file us-senate.json --jsonArray
 mongoimport --db us-senate --collection states --drop --file states.json --jsonArray
+mongoimport --db us-senate --collection representatives --drop --file us-house.json --jsonArray
 
 // start mongodb using brew
 brew services start mongodb-community@6.0
