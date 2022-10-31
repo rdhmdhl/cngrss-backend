@@ -14,3 +14,6 @@ password for cluster
 xrLGQfb3D-u2JL9
 
 If you have any questions or feedback about our APIs, we'd love to hear from you! Drop us a line at apihelp@propublica.org
+
+Set JWT key before running program, otherwise it will fail:
+export cngrss_jwtPrivateKey=mySecureKey

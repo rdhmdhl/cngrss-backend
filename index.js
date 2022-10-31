@@ -1,12 +1,32 @@
+require('express-async-errors');
+const winston = require('winston');
+require('winston-mongodb');
+
+const auth = require('./routes/auth');
 const config = require('config');
+const error = require('./middleware/error');
 const mongoose = require('mongoose');
-const express = require('express');
+const representatives = require('./routes/representatives');
 const senators = require('./routes/senators');
 const states = require('./routes/states');
-const representatives = require('./routes/representatives');
 const users = require('./routes/users');
-const auth = require('./routes/auth');
+const express = require('express');
+
 const app = express();
+
+
+process.on('uncaughtException', (ex) => {
+    console.log('we got an uncaught exception');
+    winston.error(ex.message, ex)
+})
+
+winston.add(new winston.transports.File({ filename: 'logfile.log' }));
+winston.add(new winston.transports.MongoDB({
+    db: 'mongodb://localhost/us-senate',
+    level: 'error'
+}));
+
+// throw new Error('something failed during startup');
 
 if (!config.get('jwtPrivateKey')) {
     console.error('FATAL ERROR: jwtPrivateKey is not defined.');
@@ -24,6 +44,7 @@ app.use('/api/states', states);
 app.use('/api/representatives', representatives);
 app.use('/api/users', users);
 app.use('/api/auth', auth);
+app.use(error);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`listening on port ${port}...`));
