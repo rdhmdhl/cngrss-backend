@@ -1,8 +1,10 @@
 const winston = require('winston');
 const mongoose = require('mongoose');
+const config = require('config');
 
 
 module.exports = function() {
-    mongoose.connect('mongodb://localhost/us-senate')
-    .then(() => winston.info('connected to mongodb database...'))
+    const db = config.get('db');
+    mongoose.connect(config.get('db'))
+    .then(() => winston.info(`connected to ${db}...`))
 }
