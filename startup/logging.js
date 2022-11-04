@@ -17,10 +17,9 @@ process.on('unhandledRejection', (ex) => {
 });
 
 winston.add(new winston.transports.File({ filename: 'logfile.log' }));
-winston.add(new winston.transports.MongoDB({
-    db: 'mongodb://localhost/us-senate',
-    level: 'info'
-}));
+// winston.add(new winston.transports.MongoDB({
+//     db: 'mongodb://localhost/us-senate',
+//     level: 'info'
+// }));
 
 }
-
