@@ -14,11 +14,11 @@ async function getRepresentative(name_slug) {
 };
 
 router.get('/:name_slug', async (req, res) => {
-    const senators = await getRepresentative(req.params.name_slug);
+    const representative = await getRepresentative(req.params.name_slug);
 
-    if (!senators) return res.status(404).send('representative with the given state was not found');
+    if (!representative) return res.status(404).send('representative with the given state was not found');
 
-    res.send(senators)
+    res.send(representative)
 });
 
 module.exports = router;
